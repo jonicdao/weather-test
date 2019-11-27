@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- let's load jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- let's do some jquery stuff -->
+    <script>
+        $(document).ready(function() {
+            $('form').submit(function() {
+                // your code here (build up your url)
+                var api_key = "7dec50f7c16bb6b1bd195af3d9ea12ba";
+                var city = $('input#city').val();
+                $.get(`http://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${api_key}`, function(res) {
+                    // your code here
+                        console.log(res)
+                        var html = '';
+                    html += `<p> ${res['name']}: ${res['weather'][0]['description']} </p>`;
+                    html += `<p> Temperature:${res['main']['temp']} F</p>`;
+                    html += `<p> Coord: ${res['coord'].lat}, ${res['coord'].lon}`;
+                    html += `<p> Pressure: ${res["main"]["pressure"]} barometer`
+                    $('#results').html(html);
+                }, 'json');
+                // don't forget to return false so the page doesn't refresh
+                return false;
+            });
+        });
+    </script>
+    <!-- let's load bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="weatherappstyle.css">
+     <title>My Weather App</title>
+</head>
+<body>
+    <div class="container">
+        <div class="jumbotron">
+            <h1 class="display-4">My Weather App!</h1>
+            <p class="lead">This is a simple demonstration of API getting weather information.</p>
+            <hr class="my-4">
+            <p>I used jQuery, Bootstrap, and other stuff.</p>
+            
+        </div>
+        <div id="weather">
+            <form>
+                <label for="city">Input the City: 
+                    <input type="text" name="city" id="city"/>
+                </label>
+                <input class = "btn-primary" type="submit" name="submit"/>
+            </form>
+            <div id="results"></div>
+        </div>
+
+    
+</body>
+</html>
